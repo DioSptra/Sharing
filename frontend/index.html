@@ -3,20 +3,32 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Image CRUD (S3 + boto3)</title>
+  <title>Sharing Session</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="container">
-    <h1>Image CRUD (S3)</h1>
+    <header>
+      <h1>🚀 Sharing Session</h1>
+      <p>by <span class="highlight">Dio Saputra</span></p>
+    </header>
 
-    <form id="uploadForm" enctype="multipart/form-data">
-      <input type="file" id="fileInput" name="file" accept="image/*" required />
-      <button type="submit">Upload</button>
-    </form>
+    <section class="upload-section">
+      <form id="uploadForm" enctype="multipart/form-data">
+        <label class="upload-label">
+          <input type="file" id="fileInput" name="file" accept="image/*" required />
+          <span>📤 Choose Image</span>
+        </label>
+        <button type="submit" class="btn">Upload</button>
+      </form>
+    </section>
 
-    <div id="gallery" class="gallery"></div>
+    <section class="gallery" id="gallery"></section>
   </div>
+
+  <footer>
+    <p>✨ Built with Flask + S3 | Designed for the Future</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
