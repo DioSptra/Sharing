@@ -10,6 +10,7 @@ import traceback
 
 app = Flask(__name__)
 
+# Limit upload max 50MB
 app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # 50 MB
 
 # Config dari ENV
@@ -19,7 +20,7 @@ S3_PREFIX = os.getenv("S3_PREFIX", "GUI/")  # default folder GUI/
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 
-# Client boto3 (pilih pakai creds env atau unsigned/public)
+# Client boto3 (pakai creds env atau unsigned/public)
 if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
     s3 = boto3.client(
         "s3",
@@ -56,7 +57,7 @@ def upload():
             f,
             S3_BUCKET,
             key,
-            ExtraArgs={"ContentType": f.content_type, "ACL": "public-read"}
+            ExtraArgs={"ContentType": f.content_type}
         )
         return jsonify({"key": key, "url": s3_url(key)}), 201
     except Exception as e:
@@ -111,7 +112,7 @@ def update_image(key):
             f,
             S3_BUCKET,
             key,
-            ExtraArgs={"ContentType": f.content_type, "ACL": "public-read"}
+            ExtraArgs={"ContentType": f.content_type}
         )
         return jsonify({"key": key, "url": s3_url(key)})
     except Exception as e:
