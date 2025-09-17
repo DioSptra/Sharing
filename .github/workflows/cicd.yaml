@@ -1,0 +1,32 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Install SSH Client
+      run: sudo apt-get install -y openssh-client
+
+    - name: Deploy to EC2
+      env:
+        DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER_IP }}
+        DEPLOY_USER: ${{ secrets.DEPLOY_USER_UBUNTU }}
+        SSH_KEY: ${{ secrets.SSH_KEY_UBUNTU }}
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -t rsa $DEPLOY_SERVER >> ~/.ssh/known_hosts
+        echo "$SSH_KEY" | tr -d '\r' > temp_key
+        chmod 600 temp_key
+
+        # Copy deploy script ke server
+        scp -i temp_key deploy.sh $DEPLOY_USER@$DEPLOY_SERVER:/tmp/deploy.sh
+        ssh -i temp_key $DEPLOY_USER@$DEPLOY_SERVER "bash /tmp/deploy.sh"
