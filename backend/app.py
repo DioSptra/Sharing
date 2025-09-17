@@ -1,10 +1,10 @@
-
 import os
 from flask import Flask, request, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 import boto3 
 from botocore import UNSIGNED
 from botocore.client import Config
+from botocore.exceptions import ClientError
 from datetime import datetime
 
 app = Flask(__name__)
@@ -15,6 +15,9 @@ S3_REGION = os.getenv("S3_REGION", "ap-southeast-1")
 # Optional: AWS_ACCESS_KEY_ID & AWS_SECRET_ACCESS_KEY if not using instance role/credentials file
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+
+# Folder spesifik di dalam bucket
+S3_FOLDER = "GUI/"
 
 # Create boto3 client (will use env creds or instance role if provided)
 if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
@@ -43,27 +46,32 @@ def upload():
     filename = secure_filename(f.filename)
     if filename == "":
         return jsonify({"error": "invalid filename"}), 400
+
+    key = f"{S3_FOLDER}{filename}"  # 🔥 simpan di folder GUI
+
     try:
         # upload fileobj so we don't write to disk
         s3.upload_fileobj(
             f,
             S3_BUCKET,
-            filename,
+            key,
             ExtraArgs={"ContentType": f.content_type, "ACL": "public-read"}
         )
-        return jsonify({"key": filename, "url": s3_url(filename)}), 201
+        return jsonify({"key": key, "url": s3_url(key)}), 201
     except ClientError as e:
         return jsonify({"error": "upload failed", "message": str(e)}), 500
 
 @app.route("/api/images", methods=["GET"])
 def list_images():
     try:
-        resp = s3.list_objects_v2(Bucket=S3_BUCKET, MaxKeys=1000)
+        resp = s3.list_objects_v2(Bucket=S3_BUCKET, Prefix=S3_FOLDER, MaxKeys=1000)
         items = []
         for obj in resp.get("Contents", []):
             key = obj["Key"]
+            if key.endswith("/"):  # skip "folder" object
+                continue
             items.append({
-                "key": key,
+                "key": key.replace(S3_FOLDER, ""),  # tampilkan tanpa prefix GUI/
                 "url": s3_url(key),
                 "size": obj.get("Size"),
                 "last_modified": obj.get("LastModified").isoformat() if obj.get("LastModified") else None
@@ -72,24 +80,31 @@ def list_images():
     except ClientError as e:
         return jsonify({"error": "list failed", "message": str(e)}), 500
 
-@app.route("/api/delete/<path:key>", methods=["DELETE", "POST"])
-def delete_image(key):
-    # we accept DELETE or POST (frontend confirm uses POST sometimes)
+@app.route("/api/delete/<path:filename>", methods=["DELETE", "POST"])
+def delete_image(filename):
+    # kita selalu prefix dengan GUI/
+    key = f"{S3_FOLDER}{filename}"
     try:
         s3.delete_object(Bucket=S3_BUCKET, Key=key)
-        return jsonify({"deleted": key})
+        return jsonify({"deleted": filename})
     except ClientError as e:
         return jsonify({"error": "delete failed", "message": str(e)}), 500
 
-@app.route("/api/update/<path:key>", methods=["POST"])
-def update_image(key):
+@app.route("/api/update/<path:filename>", methods=["POST"])
+def update_image(filename):
     # overwrite existing object with same key
     if "file" not in request.files:
         return jsonify({"error": "file required"}), 400
     f = request.files["file"]
+    key = f"{S3_FOLDER}{filename}"
     try:
-        s3.upload_fileobj(f, S3_BUCKET, key, ExtraArgs={"ContentType": f.content_type, "ACL": "public-read"})
-        return jsonify({"key": key, "url": s3_url(key)})
+        s3.upload_fileobj(
+            f,
+            S3_BUCKET,
+            key,
+            ExtraArgs={"ContentType": f.content_type, "ACL": "public-read"}
+        )
+        return jsonify({"key": filename, "url": s3_url(key)})
     except ClientError as e:
         return jsonify({"error": "update failed", "message": str(e)}), 500
 
