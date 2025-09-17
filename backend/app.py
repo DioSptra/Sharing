@@ -2,8 +2,9 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
-import boto3
-from botocore.exceptions import ClientError
+import boto3 
+from botocore import UNSIGNED
+from botocore.client import Config
 from datetime import datetime
 
 app = Flask(__name__)
@@ -24,7 +25,7 @@ if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
         aws_secret_access_key=AWS_SECRET_ACCESS_KEY
     )
 else:
-    s3 = boto3.client("s3", region_name=S3_REGION)
+    s3 = boto3.client("s3", region_name=S3_REGION, config=Config(signature_version=UNSIGNED))
 
 # helper to build object url
 def s3_url(key):
