@@ -10,6 +10,8 @@ import traceback
 
 app = Flask(__name__)
 
+app.config["MAX_CONTENT_LENGTH"] = 50 * 1024 * 1024  # 50 MB
+
 # Config dari ENV
 S3_BUCKET = os.getenv("S3_BUCKET", "diobucket-1")
 S3_REGION = os.getenv("S3_REGION", "ap-southeast-1")
