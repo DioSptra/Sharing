@@ -2,8 +2,8 @@ name: CI/CD
 
 on:
   push:
-    branches: [ master ]
-  workflow_dispatch:
+    branches: [ master ]        # otomatis test setiap push
+  workflow_dispatch:             # tombol manual untuk trigger
 
 jobs:
   test_code:
@@ -13,23 +13,24 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
 
-      - name: Setup Python tests
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.x
+          python-version: 3.x       # gunakan versi Python terbaru yang tersedia
 
-      - name: Install BeautifulSoup
-        run: pip install beautifulsoup4
+      - name: Install dependencies
+        run: |
+          pip install beautifulsoup4
 
       - name: Run unit tests
-        run: python unit-test.py
+        run: python unit-test.py   # unit-test.py harus berada sejajar docker-compose.yaml
 
   deploy:
     runs-on: ubuntu-latest
     needs: test_code
-    if: github.event_name == 'workflow_dispatch'   # hanya deploy kalau manual trigger
+    if: ${{ github.event_name == 'workflow_dispatch' }} # deploy hanya via tombol manual
     environment:
-      name: production   # tombol approval optional via environment protection
+      name: production           # tombol approval optional via environment protection
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -49,5 +50,5 @@ jobs:
           chmod 600 temp_key
 
           # Copy deploy script ke server & jalankan
-          scp -i temp_key scripts/deploy.sh $DEPLOY_USER@$DEPLOY_SERVER:/tmp/deploy.sh
+          scp -i temp_key deploy.sh $DEPLOY_USER@$DEPLOY_SERVER:/tmp/deploy.sh
           ssh -i temp_key $DEPLOY_USER@$DEPLOY_SERVER "bash /tmp/deploy.sh"
