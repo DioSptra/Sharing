@@ -13,6 +13,7 @@ body {
   justify-content: space-between;
   background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
   color: #e0e0e0;
+  overflow-x: hidden;
 }
 
 /* === Container === */
@@ -22,14 +23,47 @@ body {
   margin: auto;
   padding: 2rem 0;
   text-align: center;
+  z-index: 2;
+  position: relative;
 }
 
-/* === Header === */
-header {
+/* === Hero Section === */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+  border-radius: 20px;
   margin-bottom: 2rem;
+  box-shadow: 0 0 30px rgba(0,0,0,0.7);
 }
 
-header h1 {
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+  transform: scale(1.1);
+  animation: zoomIn 12s ease-in-out infinite alternate;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  text-align: center;
+  animation: fadeIn 1.2s ease forwards;
+}
+
+.hero-overlay h1 {
   font-size: 3rem;
   background: linear-gradient(90deg, #00c6ff, #0072ff, #00ffe7);
   -webkit-background-clip: text;
@@ -38,15 +72,10 @@ header h1 {
   animation: glowText 2s ease-in-out infinite alternate;
 }
 
-@keyframes glowText {
-  0% { text-shadow: 0 0 10px rgba(0,198,255,0.5); }
-  50% { text-shadow: 0 0 25px rgba(0,255,255,0.9); }
-  100% { text-shadow: 0 0 40px rgba(0,198,255,1); }
-}
-
-header p {
-  font-size: 1.2rem;
-  color: #aaa;
+.hero-overlay p {
+  font-size: 1.3rem;
+  color: #ccc;
+  margin-top: 0.5rem;
 }
 
 .highlight {
@@ -54,21 +83,22 @@ header p {
   font-weight: bold;
 }
 
-/* === Hero Image (Header Background) === */
-header::before {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 250px;
-  background: url('https://diobucket-1.s3.ap-southeast-1.amazonaws.com/Cloud-kinetics.jpeg') center/cover no-repeat;
-  border-radius: 15px;
-  margin-bottom: 1.5rem;
-  filter: brightness(0.6) blur(2px);
+/* === Animations Hero === */
+@keyframes zoomIn {
+  from { transform: scale(1.05); }
+  to { transform: scale(1.15); }
+}
+
+@keyframes glowText {
+  0% { text-shadow: 0 0 10px rgba(0,198,255,0.5); }
+  50% { text-shadow: 0 0 25px rgba(0,255,255,0.9); }
+  100% { text-shadow: 0 0 40px rgba(0,198,255,1); }
 }
 
 /* === Upload Section === */
 .upload-section {
   margin: 2rem 0;
+  animation: fadeIn 1s ease forwards;
 }
 
 .upload-label {
@@ -113,9 +143,21 @@ header::before {
   box-shadow: 0 0 25px rgba(221, 36, 118, 0.8);
 }
 
+/* === Section Titles === */
+.section-title {
+  font-size: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #ff512f, #dd2476, #00ffe7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  animation: glowText 2s ease-in-out infinite alternate;
+}
+
 /* === Gallery === */
 .gallery {
-  margin-top: 3rem;
+  margin-top: 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.8rem;
@@ -129,6 +171,7 @@ header::before {
   text-align: center;
   box-shadow: 0 0 15px rgba(0,0,0,0.4);
   transition: transform .3s ease, box-shadow .3s ease;
+  animation: fadeIn 0.8s ease forwards;
 }
 
 .card:hover {
@@ -178,6 +221,7 @@ footer {
   color: #aaa;
   background: rgba(0,0,0,0.3);
   border-top: 1px solid #00ffe7;
+  margin-top: 2rem;
 }
 
 /* === Scrollbar futuristic === */
@@ -198,8 +242,4 @@ footer {
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(15px);}
   to {opacity:1; transform: translateY(0);}
-}
-
-.card, .upload-section {
-  animation: fadeIn 0.8s ease forwards;
 }

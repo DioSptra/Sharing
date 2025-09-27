@@ -1,32 +1,53 @@
-name: CI/CD Pipeline
+name: CI/CD
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  test_code:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@v2
 
-    - name: Install SSH Client
-      run: sudo apt-get install -y openssh-client
+      - name: Setup Python for frontend tests
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
 
-    - name: Deploy to EC2
-      env:
-        DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER_IP }}
-        DEPLOY_USER: ${{ secrets.DEPLOY_USER_UBUNTU }}
-        SSH_KEY: ${{ secrets.SSH_KEY_UBUNTU }}
-      run: |
-        mkdir -p ~/.ssh
-        ssh-keyscan -t rsa $DEPLOY_SERVER >> ~/.ssh/known_hosts
-        echo "$SSH_KEY" | tr -d '\r' > temp_key
-        chmod 600 temp_key
+      - name: Install BeautifulSoup
+        run: pip install beautifulsoup4
 
-        # Copy deploy script ke server
-        scp -i temp_key deploy.sh $DEPLOY_USER@$DEPLOY_SERVER:/tmp/deploy.sh
-        ssh -i temp_key $DEPLOY_USER@$DEPLOY_SERVER "bash /tmp/deploy.sh"
+      - name: Run frontend unit tests
+        run: python unit-test.py
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test_code
+    if: github.event_name == 'workflow_dispatch'   # hanya deploy kalau manual trigger
+    environment:
+      name: production   # tombol approval optional via environment protection
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Install SSH client
+        run: sudo apt-get update && sudo apt-get install -y openssh-client
+
+      - name: Deploy to EC2
+        env:
+          DEPLOY_SERVER: ${{ secrets.DEPLOY_SERVER_IP }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER_UBUNTU }}
+          SSH_KEY: ${{ secrets.SSH_KEY_UBUNTU }}
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -t rsa $DEPLOY_SERVER >> ~/.ssh/known_hosts
+          echo "$SSH_KEY" | tr -d '\r' > temp_key
+          chmod 600 temp_key
+
+          # Copy deploy script ke server & jalankan
+          scp -i temp_key scripts/deploy.sh $DEPLOY_USER@$DEPLOY_SERVER:/tmp/deploy.sh
+          ssh -i temp_key $DEPLOY_USER@$DEPLOY_SERVER "bash /tmp/deploy.sh"
