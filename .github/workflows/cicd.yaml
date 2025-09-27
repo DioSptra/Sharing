@@ -28,7 +28,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: test_code
-    if: ${{ github.event_name == 'workflow_dispatch' }} # deploy hanya via tombol manual
     environment:
       name: production           # tombol approval optional via environment protection
     steps:
