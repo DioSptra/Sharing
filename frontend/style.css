@@ -27,7 +27,7 @@ body {
   position: relative;
 }
 
-/* === Hero Section === */
+/* === Hero Slider === */
 .hero-slider {
   position: relative;
   width: 100%;
@@ -37,6 +37,8 @@ body {
 
 .slide {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -45,30 +47,31 @@ body {
 
 .slide.active {
   opacity: 1;
-  position: relative;
+  z-index: 1;
 }
 
 .slide img {
   width: 100%;
-  height: 500px;
+  height: 100%;
   object-fit: cover;
 }
 
-/* ini yang ngatur teks overlay */
+/* overlay text di tengah */
 .hero-overlay {
   position: absolute;
-  top: 50%;              /* taruh di tengah vertikal */
-  left: 50%;             /* taruh di tengah horizontal */
-  transform: translate(-50%, -50%); /* benerin posisi ke tengah */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
   color: #fff;
-  text-shadow: 0 3px 6px rgba(0,0,0,0.6);
-  width: 80%; /* biar ga kepanjangan ke pinggir */
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
+  width: 80%;
 }
 
 .hero-overlay h1 {
   font-size: 42px;
   margin-bottom: 10px;
+  animation: glowText 2s ease-in-out infinite alternate;
 }
 
 .hero-overlay p {
@@ -80,12 +83,30 @@ body {
   font-weight: bold;
 }
 
-/* === Animations Hero === */
-@keyframes zoomIn {
-  from { transform: scale(1.05); }
-  to { transform: scale(1.15); }
+/* === Slider Nav Buttons === */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+  transition: background 0.3s ease;
 }
 
+.slider-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.slider-btn.prev { left: 20px; }
+.slider-btn.next { right: 20px; }
+
+/* === Animations Hero === */
 @keyframes glowText {
   0% { text-shadow: 0 0 10px rgba(0,198,255,0.5); }
   50% { text-shadow: 0 0 25px rgba(0,255,255,0.9); }
@@ -203,6 +224,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all .3s ease;
+  display: inline-block;
 }
 
 .card button:hover {
@@ -239,5 +261,28 @@ footer {
 @keyframes fadeIn {
   from {opacity: 0; transform: translateY(15px);}
   to {opacity:1; transform: translateY(0);}
+}
+
+.filename {
+  font-size: 0.85rem;
+  color: #ccc;
+  word-break: break-word;
+  margin: 0.5rem 0;
+}
+
+.delete-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  box-shadow: 0 0 20px rgba(221, 36, 118, 0.8);
+  transform: scale(1.1);
 }
 

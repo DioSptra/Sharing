@@ -18,6 +18,30 @@
     </ul>
   </nav>
 
+  <!-- Hero Slider -->
+  <div class="hero-slider" id="home">
+    <div class="slide active">
+      <img src="https://diobucket-1.s3.ap-southeast-1.amazonaws.com/Cloud-kinetics.jpeg" alt="Cloud Kinetics">
+      <div class="hero-overlay">
+        <h1>🚀 Sharing Session</h1>
+        <p>by <span class="highlight">Dio Saputra</span></p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="https://picsum.photos/id/1015/1200/500" alt="Nature">
+      <div class="hero-overlay">
+        <h1>🌿 Learn DevOps</h1>
+        <p>Modern Infrastructure Automation</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="https://picsum.photos/id/1005/1200/500" alt="Cloud">
+      <div class="hero-overlay">
+        <h1>☁️ Cloud Native</h1>
+        <p>Future is in the Cloud</p>
+      </div>
+    </div>
+
     <!-- Slider Controls -->
     <button class="prev">❮</button>
     <button class="next">❯</button>
@@ -25,6 +49,7 @@
 
   <!-- Main Container -->
   <div class="container">
+    <!-- Upload Section -->
     <section class="upload-section">
       <form id="uploadForm" enctype="multipart/form-data">
         <label class="upload-label">
@@ -35,8 +60,11 @@
       </form>
     </section>
 
+    <!-- Gallery Section -->
     <h2 class="section-title" id="gallery">📸 Gallery</h2>
-    <section class="gallery"></section>
+    <section class="gallery" id="galleryContainer">
+      <!-- JS akan render isi gambar + delete button -->
+    </section>
   </div>
 
   <!-- Footer -->
@@ -44,6 +72,7 @@
     <p>✨ Built with Flask + AWS S3 | Designed for the Future 🚀</p>
   </footer>
 
+  <!-- Script -->
   <script src="script.js"></script>
 </body>
 </html>
