@@ -387,3 +387,54 @@ body {
   color: #00ffe7;
   font-weight: bold;
 }
+
+.contact-container {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.contact-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+.contact-card h2 {
+  margin-top: 1rem;
+  font-size: 1.8rem;
+  color: #00ffe7;
+}
+
+.contact-card p {
+  margin: 0.5rem 0 1.5rem;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid #00ffe7;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ff512f, #dd2476);
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-links a:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(221,36,118,0.8);
+}
