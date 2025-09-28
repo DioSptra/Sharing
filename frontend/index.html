@@ -7,14 +7,44 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <!-- Hero Banner -->
-  <div class="hero">
-    <img src="https://diobucket-1.s3.ap-southeast-1.amazonaws.com/Cloud-kinetics.jpeg" 
-         alt="Cloud Kinetics" class="hero-img" />
-    <div class="hero-overlay">
-      <h1>🚀 Sharing Session</h1>
-      <p>by <span class="highlight">Dio Saputra</span></p>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-logo">🚀 Sharing Session</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Slider -->
+  <div class="hero-slider" id="home">
+    <div class="slide active">
+      <img src="https://diobucket-1.s3.ap-southeast-1.amazonaws.com/Cloud-kinetics.jpeg" alt="Cloud Kinetics">
+      <div class="hero-overlay">
+        <h1>🚀 Sharing Session</h1>
+        <p>by <span class="highlight">Dio Saputra</span></p>
+      </div>
     </div>
+    <div class="slide">
+      <img src="https://picsum.photos/id/1015/1200/500" alt="Nature">
+      <div class="hero-overlay">
+        <h1>🌿 Learn DevOps</h1>
+        <p>Modern Infrastructure Automation</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="https://picsum.photos/id/1005/1200/500" alt="Cloud">
+      <div class="hero-overlay">
+        <h1>☁️ Cloud Native</h1>
+        <p>Future is in the Cloud</p>
+      </div>
+    </div>
+
+    <!-- Slider Controls -->
+    <button class="prev">❮</button>
+    <button class="next">❯</button>
   </div>
 
   <!-- Main Container -->
@@ -29,12 +59,12 @@
       </form>
     </section>
 
-    <h2 class="section-title">📸 Gallery</h2>
-    <section class="gallery" id="gallery"></section>
+    <h2 class="section-title" id="gallery">📸 Gallery</h2>
+    <section class="gallery"></section>
   </div>
 
   <!-- Footer -->
-  <footer>
+  <footer id="contact">
     <p>✨ Built with Flask + AWS S3 | Designed for the Future 🚀</p>
   </footer>
 

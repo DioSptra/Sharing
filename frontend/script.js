@@ -1,3 +1,4 @@
+// ==== GALLERY LOGIC ====
 const gallery = document.getElementById("gallery");
 const uploadForm = document.getElementById("uploadForm");
 const fileInput = document.getElementById("fileInput");
@@ -48,3 +49,28 @@ async function deleteImage(key){
 }
 
 fetchImages();
+
+
+// ==== SLIDER LOGIC ====
+let slides = document.querySelectorAll(".slide");
+let currentIndex = 0;
+
+function showSlide(index) {
+  slides.forEach((s, i) => s.classList.toggle("active", i === index));
+}
+
+document.querySelector(".next").addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
+});
+
+document.querySelector(".prev").addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+  showSlide(currentIndex);
+});
+
+// Auto slide every 5s
+setInterval(() => {
+  currentIndex = (currentIndex + 1) % slides.length;
+  showSlide(currentIndex);
+}, 5000);

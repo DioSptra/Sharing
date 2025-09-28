@@ -2,8 +2,8 @@ name: CI/CD
 
 on:
   push:
-    branches: [ master ]        # otomatis test setiap push
-  workflow_dispatch:             # tombol manual untuk trigger
+    branches: 
+      - master                    
 
 jobs:
   test_code:
@@ -16,20 +16,22 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.x       # gunakan versi Python terbaru yang tersedia
+          python-version: 3.x       
 
       - name: Install dependencies
         run: |
           pip install beautifulsoup4
 
       - name: Run unit tests
-        run: python unit-test.py   # unit-test.py harus berada sejajar docker-compose.yaml
+        run: python unit-test.py   
 
   deploy:
     runs-on: ubuntu-latest
     needs: test_code
+
     environment:
-      name: production           # tombol approval optional via environment protection
+      name: production  
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -43,6 +45,7 @@ jobs:
           DEPLOY_USER: ${{ secrets.DEPLOY_USER_UBUNTU }}
           SSH_KEY: ${{ secrets.SSH_KEY_UBUNTU }}
         run: |
+          echo "🚀 Starting deploy..."
           mkdir -p ~/.ssh
           ssh-keyscan -t rsa $DEPLOY_SERVER >> ~/.ssh/known_hosts
           echo "$SSH_KEY" | tr -d '\r' > temp_key
@@ -51,3 +54,4 @@ jobs:
           # Copy deploy script ke server & jalankan
           scp -i temp_key deploy.sh $DEPLOY_USER@$DEPLOY_SERVER:/tmp/deploy.sh
           ssh -i temp_key $DEPLOY_USER@$DEPLOY_SERVER "bash /tmp/deploy.sh"
+          echo "🚀 Starting deploy..."
