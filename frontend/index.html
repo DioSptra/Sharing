@@ -9,23 +9,29 @@
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="nav-logo">🚀 Sharing Session</div>
-    <ul class="nav-links">
-      <li><a href="#home">Home</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+  <div class="nav-logo">🚀 Sharing Session</div>
+  <div class="nav-toggle">☰</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+  <!-- Teks di atas slider -->
+  <div class="hero-header">
+    <h1>🚀 Sharing Session</h1>
+    <p>by <span class="highlight">Dio Saputra</span></p>
+  </div>
 
   <!-- Hero Slider -->
-  <div class="hero-slider" id="home">
+  <div class="hero-slider">
     <div class="slide active">
       <img src="https://diobucket-1.s3.ap-southeast-1.amazonaws.com/Cloud-kinetics.jpeg" alt="Cloud Kinetics">
-      <div class="hero-overlay">
-        <h1>🚀 Sharing Session</h1>
-        <p>by <span class="highlight">Dio Saputra</span></p>
-      </div>
     </div>
     <div class="slide">
       <img src="https://picsum.photos/id/1015/1200/500" alt="Nature">
@@ -41,6 +47,12 @@
         <p>Future is in the Cloud</p>
       </div>
     </div>
+
+    <!-- Slider Controls -->
+    <button class="prev">❮</button>
+    <button class="next">❯</button>
+  </div>
+</section>
 
     <!-- Slider Controls -->
     <button class="prev">❮</button>

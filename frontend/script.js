@@ -95,4 +95,12 @@ document.querySelector(".prev").addEventListener("click", () => {
 setInterval(() => {
   currentIndex = (currentIndex + 1) % slides.length;
   showSlide(currentIndex);
-}, 5000);
+}, 8000);
+
+// ==== NAVBAR TOGGLE ====
+const navToggle = document.querySelector(".nav-toggle");
+const navLinks = document.querySelector(".nav-links");
+
+navToggle.addEventListener("click", () => {
+  navLinks.classList.toggle("active");
+});
