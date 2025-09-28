@@ -8,33 +8,39 @@
 </head>
 <body>
   <!-- Navbar -->
-<nav class="navbar">
-  <div class="logo">🚀 Sharing Session</div>
-  <ul>
-    <li><a href="#">Home</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
+  <nav class="navbar">
+    <div class="nav-logo">🚀 Sharing Session</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-<!-- Hero Slider -->
-<div class="hero slider">
-  <div>
-    <img src="https://diobucket-1.s3.ap-southeast-1.amazonaws.com/Cloud-kinetics.jpeg" alt="Cloud Kinetics" />
-    <div class="hero-overlay">
-      <h1>🚀 Sharing Session</h1>
-      <p>by <span class="highlight">Dio Saputra</span></p>
+  <!-- Hero Slider -->
+  <div class="hero-slider" id="home">
+    <div class="slide active">
+      <img src="https://diobucket-1.s3.ap-southeast-1.amazonaws.com/Cloud-kinetics.jpeg" alt="Cloud Kinetics">
+      <div class="hero-overlay">
+        <h1>🚀 Sharing Session</h1>
+        <p>by <span class="highlight">Dio Saputra</span></p>
+      </div>
     </div>
-  </div>
-  <div>
-    <img src="https://picsum.photos/1200/500?random=1" alt="Slide 2" />
-  </div>
-  <div>
-    <img src="https://picsum.photos/1200/500?random=2" alt="Slide 3" />
-  </div>
-</div>
-
+    <div class="slide">
+      <img src="https://picsum.photos/id/1015/1200/500" alt="Nature">
+      <div class="hero-overlay">
+        <h1>🌿 Learn DevOps</h1>
+        <p>Modern Infrastructure Automation</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="https://picsum.photos/id/1005/1200/500" alt="Cloud">
+      <div class="hero-overlay">
+        <h1>☁️ Cloud Native</h1>
+        <p>Future is in the Cloud</p>
+      </div>
+    </div>
 
     <!-- Slider Controls -->
     <button class="prev">❮</button>

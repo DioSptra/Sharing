@@ -75,14 +75,3 @@ setInterval(() => {
   showSlide(currentIndex);
 }, 5000);
 
-// Init Slider
-$(document).ready(function(){
-  $('.slider').slick({
-    autoplay: true,
-    autoplaySpeed: 4000,
-    arrows: true,
-    dots: true,
-    fade: true,
-    cssEase: 'linear'
-  });
-});
