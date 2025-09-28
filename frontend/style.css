@@ -28,54 +28,51 @@ body {
 }
 
 /* === Hero Section === */
-.hero {
+.hero-slider {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 500px;
   overflow: hidden;
-  border-radius: 20px;
-  margin-bottom: 2rem;
-  box-shadow: 0 0 30px rgba(0,0,0,0.7);
 }
 
-.hero-img {
+.slide {
+  position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  filter: brightness(0.7);
-  transform: scale(1.1);
-  animation: zoomIn 12s ease-in-out infinite alternate;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
+.slide.active {
+  opacity: 1;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+}
+
+/* ini yang ngatur teks overlay */
 .hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  background: rgba(0,0,0,0.4);
+  top: 50%;              /* taruh di tengah vertikal */
+  left: 50%;             /* taruh di tengah horizontal */
+  transform: translate(-50%, -50%); /* benerin posisi ke tengah */
   text-align: center;
-  animation: fadeIn 1.2s ease forwards;
+  color: #fff;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.6);
+  width: 80%; /* biar ga kepanjangan ke pinggir */
 }
 
 .hero-overlay h1 {
-  font-size: 3rem;
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #00ffe7);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 15px rgba(0, 198, 255, 0.8);
-  animation: glowText 2s ease-in-out infinite alternate;
+  font-size: 42px;
+  margin-bottom: 10px;
 }
 
 .hero-overlay p {
-  font-size: 1.3rem;
-  color: #ccc;
-  margin-top: 0.5rem;
+  font-size: 18px;
 }
 
 .highlight {
