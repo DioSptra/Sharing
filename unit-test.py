@@ -3,7 +3,6 @@ import sys
 import time
 from bs4 import BeautifulSoup
 
-# === Daftar file wajib ===
 REQUIRED_FILES = [
     "frontend/index.html",
     "frontend/style.css",
